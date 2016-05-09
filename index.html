@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="main.css">
+</head>
+<body>
+	<div class="popup-bg" id="popup">
+		<div class="popup">
+			перетащите фотографию
+			<label for="photoInput"></label>
+			<input id="photoInput" type="file">
+			<div class="img-wrapper"><img id="output" src="" alt=""></div>
+			<button id="sendAvatar">Загрузить</button>
+		</div>
+	</div>
+	<div class="error-msg" id="errorMessage"></div>
+	<aside class="sidebar">
+		<ul class="user-list" id = "userList">
+		</ul>
+	</aside>
+	<div class="main-wrapper">
+		<form action="" class="auth-form" id="authForm">
+		<div class="auth__title">Авторизация</div>
+			<label>
+				<input type="text" id="name" placeholder="name">
+			</label>
+			<label>
+				<input type="text" id="login" placeholder="login">
+			</label>
+			<button id="submit">submit</button>
+		</form>
+		<ul class="message-list" id="messageList"></ul>
+		<form name="message" class="message" id="messageForm">
+			<input class="message-input" id="messageInput" type="text">
+			<button class="send-message" id="sendMessage" type="submit">send</button>
+		</form>
+	</div>
+	<script src='main.js'></script>	
+</body>
+</html>
