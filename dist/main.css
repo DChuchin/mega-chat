@@ -48,6 +48,7 @@ ul,li {
 	}
 }
 .error-msg {
+	z-index: 1000;
 	visibility: hidden;
 	position: absolute;
 	width: 100%;

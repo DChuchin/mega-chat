@@ -67,6 +67,23 @@ document.addEventListener('DOMContentLoaded', function() {
 				        file = e.target.files[0];
 				        fileReader.readAsDataURL(file);
 				    });
+					sendAvatar.onclick = function(e) {
+						e.preventDefault();
+						console.log(file.size);
+						if ((file.size/1024) < 513) {
+							var xhr = new XMLHttpRequest();
+							var fData = new FormData();
+							fData.append('photo', file);
+							fData.append('token', user.token);
+							xhr.open('POST', 'http://' + server+ '/upload',  true);						
+							xhr.onload =function() {
+								console.log(xhr.status);
+							};
+							xhr.send(fData);
+						} else {
+							error('файл не может превышать 512kb');
+						}
+					}
 				});
 
 				popup.addEventListener('click', function(e) {
@@ -86,6 +103,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (data.op == 'user-out') {
 				deleteUser(data.user);
 			};
+			if (data.op == 'user-change-photo') {
+				changePhoto(data.user);
+			}
 			document.forms.message.onsubmit = function(e) {
 				toServer.op = 'message';
 				toServer.token = user.token;
@@ -108,6 +128,15 @@ document.addEventListener('DOMContentLoaded', function() {
 			};
 		};
 	};
+
+	function changePhoto(obj) {
+		var users = document.querySelectorAll('li[data-login=' + obj.login + ']');
+		for (var i=0; i < users.length; i++) {
+			var photo = users[i].querySelector('img');
+			photo.src = 'http://' + server + '/photos/' + obj.login;
+		};
+	};
+
 	function createMessage(obj) {
 		var li = document.createElement('LI'),
 			msgWrap = document.createElement('DIV'),
@@ -120,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		msgWrap.classList.add('message-wrapper');
 		msgWrap.insertAdjacentHTML('afterbegin', photo + login + timeEl + message);
 		li.appendChild(msgWrap);
+		li.dataset.login = obj.user.login;
 		if (obj.user.login === user.login) {
 			li.classList.add('mine');
 		}
@@ -171,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			li.classList.add('user_me');
 		} else {
 			li.classList.add('user_other');
-		}
+		};
 		li.insertAdjacentHTML('afterbegin', photo + login + name);
 		return li;
 	};
